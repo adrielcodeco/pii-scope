@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "outDir": "dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
+        "allowJs": false,
+        "module": "CommonJS",
+        "target": "es2016",
+        "baseUrl": "./",
+        "lib": [
+            "esnext"
+        ]
+    },
+    "include": [
+        "src/"
+    ],
+    "exclude": [
+        ".circleci",
+        "devops",
+        "node_modules"
+    ]
+}

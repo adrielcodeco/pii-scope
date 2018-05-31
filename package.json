@@ -1,0 +1,21 @@
+{
+  "name": "@pii/scope",
+  "version": "1.0.0",
+  "description": "A library to create new global scopes",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -d",
+    "publish": "npm publish --access public"
+  },
+  "homepage": "https://github.com/adrielcodeco/pii-scope/docs/index.html",
+  "keywords": [
+    "pii"
+  ],
+  "author": "codeco",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^10.1.4",
+    "typescript": "^2.9.1"
+  }
+}
