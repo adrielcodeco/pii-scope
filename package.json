@@ -1,21 +1,34 @@
 {
-  "name": "@pii/scope",
-  "version": "1.0.0",
-  "description": "A library to create new global scopes",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc -d",
-    "publish": "npm publish --access public"
-  },
-  "homepage": "https://github.com/adrielcodeco/pii-scope/docs/index.html",
-  "keywords": [
-    "pii"
-  ],
-  "author": "codeco",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^10.1.4",
-    "typescript": "^2.9.1"
-  }
+    "name": "@pii/scope",
+    "version": "1.0.0",
+    "description": "A library to create new global scopes",
+    "main": "dist/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc -d",
+        "publish": "npm publish --access public"
+    },
+    "homepage": "https://github.com/adrielcodeco/pii-scope",
+    "bugs": {
+        "url": "https://github.com/adrielcodeco/pii-scope/issues",
+        "email": "pii.dev@outlook.com"
+    },
+    "keywords": ["pii"],
+    "author": {
+        "name": "Adriel Codeco",
+        "email": "adrielcodeco@hotmail.com",
+        "url": "https://github.com/adrielcodeco"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/adrielcodeco/pii-scope.git"
+    },
+    "license": {
+        "type": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+    },
+    "devDependencies": {
+        "@types/node": "^10.1.4",
+        "typescript": "^2.9.1"
+    }
 }
