@@ -3,7 +3,14 @@ const gulp = require('gulp')
 const util = require('gulp-util')
 const prompt = require('gulp-prompt')
 
-let tasks = ['dist-clean']
+let tasks = [
+  'dist-clean',
+  'npm-build',
+  'npm-lint',
+  'npm-lintfix',
+  'npm-test',
+  'precommit'
+]
 
 tasks.forEach(task => {
   const taskFile = path.resolve('./devops', task + '.js')

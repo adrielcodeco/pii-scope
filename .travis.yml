@@ -9,4 +9,4 @@ node_js:
 script:
   - npm run build
   - npm run lint
-  - npm t
+  - npm run test-coverage

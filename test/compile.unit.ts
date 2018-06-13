@@ -1,8 +1,8 @@
-import * as vm from 'vm'
-import Context from '../src/context'
-  ;(() => {
+;(() => {
   const path = require('path')
   const Module = require('module')
+  const vm = require('vm')
+  const Context = require('../src/context').default
 
   const createModule = () => {
     const mod = new Module(__filename, module)
