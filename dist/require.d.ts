@@ -1,1 +1,1 @@
-export declare function makeRequireFunction(mod: any): (path: string) => any;
+export declare function makeRequireFunction(mod: any): (request: string) => any;
