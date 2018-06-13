@@ -4,10 +4,10 @@
   "description": "A library to create new global scopes",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "tslint --project tsconfig.json -t verbose",
-    "lint-fix": "tslint --project tsconfig.json --fix -t verbose",
+    "lint": "tslint --project tsconfig.lint.json -t verbose",
+    "lint-fix": "tslint --project tsconfig.lint.json --fix -t verbose",
     "test": "jest | coveralls",
-    "build": "tsc -d"
+    "build": "gulp dist-clean && tsc -d"
   },
   "homepage": "https://github.com/adrielcodeco/pii-scope",
   "bugs": {
@@ -28,6 +28,11 @@
     "url": "https://github.com/adrielcodeco/pii-scope.git"
   },
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build && npm run lint && npm t && npm run lint-fix"
+    }
+  },
   "devDependencies": {
     "@types/jest": "^23.0.0",
     "@types/node": "^10.3.0",
@@ -37,6 +42,10 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-prompt": "^1.0.1",
+    "husky": "^0.14.3",
     "jest": "^23.1.0",
     "prettier": "^1.13.4",
     "prettier-eslint": "^8.8.1",

@@ -1,4 +1,4 @@
-;(() => {
+(() => {
   const requireTest = () => {
     // require scope
     return require('../src/scope').default
