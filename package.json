@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "tslint --project tsconfig.lint.json -t verbose",
     "lint-fix": "tslint --project tsconfig.lint.json --fix -t verbose",
+    "lintStaged": "lint-staged",
     "test": "jest --coverage=false",
     "test-coverage": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "build": "gulp dist-clean && tsc -d",
@@ -30,6 +31,9 @@
     "url": "https://github.com/adrielcodeco/pii-scope.git"
   },
   "license": "MIT",
+  "lint-staged": {
+    "*.ts": ["npm run lint-fix", "git add"]
+  },
   "devDependencies": {
     "@types/jest": "^23.0.0",
     "@types/node": "^10.3.0",
@@ -45,6 +49,7 @@
     "gulp-run-command": "0.0.9",
     "husky": "^0.14.3",
     "jest": "^23.1.0",
+    "lint-staged": "^7.2.0",
     "prettier": "^1.13.4",
     "prettier-eslint": "^8.8.1",
     "run-sequence": "^2.2.1",

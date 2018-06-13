@@ -1,4 +1,5 @@
-;(() => {
+
+(() => {
   const testKey = 'Pii'
 
   const requireTest = () => {

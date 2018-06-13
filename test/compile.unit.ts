@@ -1,4 +1,5 @@
-;(() => {
+
+(() => {
   const path = require('path')
   const Module = require('module')
   const vm = require('vm')

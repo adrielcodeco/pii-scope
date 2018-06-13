@@ -1,4 +1,5 @@
-;(() => {
+
+(() => {
   const vm = require('vm')
   const Context = require('../src/context').default
   const path = require('path')

@@ -1,4 +1,5 @@
-;(() => {
+
+(() => {
   const requireTest = () => {
     // require scope
     return require('../src/helpers')
