@@ -1,4 +1,4 @@
-(() => {
+;(() => {
   const requireTest = () => {
     // require scope
     return require('../src/helpers')
@@ -77,9 +77,9 @@
     let content
     expect(() => {
       content = helpers.stripShebang(
-          `#!/usr/bin/env node
+        `#!/usr/bin/env node
            test`
-        )
+      )
     }).not.toThrow()
     expect(content).toMatch(/^[\s\r\n]+test$/)
   })

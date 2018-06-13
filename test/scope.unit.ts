@@ -1,4 +1,4 @@
-(() => {
+;(() => {
   const requireTest = () => {
     // require scope
     return require('../src/scope').default
@@ -40,7 +40,9 @@
     expect.assertions(1)
     const Scope = requireTest()
     expect(() => {
-      Scope(require.resolve('./dummy/newGlobalScope'), { parentModule: useNativeModule() })
+      Scope(require.resolve('./dummy/newGlobalScope'), {
+        parentModule: useNativeModule()
+      })
     }).not.toThrow()
   })
 

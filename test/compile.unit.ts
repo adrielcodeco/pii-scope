@@ -1,7 +1,6 @@
 import * as vm from 'vm'
 import Context from '../src/context'
-
-;(() => {
+  ;(() => {
   const path = require('path')
   const Module = require('module')
 
@@ -99,7 +98,9 @@ import Context from '../src/context'
     expect.assertions(4)
     const compile = requireTest()
     const filename = require.resolve('./dummy/newGlobalScope')
-    const NewGlobalScope = compile(filename, createModule(), null, { pii: '@pii' })
+    const NewGlobalScope = compile(filename, createModule(), null, {
+      pii: '@pii'
+    })
     expect(NewGlobalScope).toBeDefined()
     expect(NewGlobalScope.prototype).toBeDefined()
     const keys = Reflect.ownKeys(NewGlobalScope.prototype)
