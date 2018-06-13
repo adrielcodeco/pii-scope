@@ -1,4 +1,3 @@
-
 (() => {
   const requireTest = () => {
     // require scope
