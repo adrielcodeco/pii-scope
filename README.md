@@ -14,6 +14,10 @@ Pii Scope is library to create new global scopes
 npm i -S @pii/scope
 ```
 
+## Requirements
+
+* NodeJS version >= 6
+
 ## Documentation
 
 * [Quick Start](https://github.com/adrielcodeco/pii-scope/docs/quick-start.html)

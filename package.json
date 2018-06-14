@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A library to create new global scopes",
   "main": "dist/index.js",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "scripts": {
     "lint": "tslint --project tsconfig.lint.json -t verbose",
     "lint-fix": "tslint --project tsconfig.lint.json --fix -t verbose",
@@ -34,7 +37,10 @@
   },
   "license": "MIT",
   "lint-staged": {
-    "*.ts": ["npm run lint-fix", "git add"]
+    "*.ts": [
+      "npm run lint-fix",
+      "git add"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^23.0.0",
