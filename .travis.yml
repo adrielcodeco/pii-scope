@@ -7,7 +7,7 @@ node_js:
   - "6"
   - "5"
 install:
-  - npm i -g node-gyp
+  - npm i -g node-gyp gulp
 script:
   - npm run build-addon
   - npm run build
