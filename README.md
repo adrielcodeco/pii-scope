@@ -20,8 +20,8 @@ npm i -S @pii/scope
 
 ## Documentation
 
-* [Quick Start](https://github.com/adrielcodeco/pii-scope/docs/quick-start.html)
-* [Examples](https://github.com/adrielcodeco/pii-scope/examples)
+* [Quick Start](https://adrielcodeco.github.io/pii-scope#quick-start)
+* [Examples](https://github.com/adrielcodeco/pii-scope/tree/master/examples)
 
 ## Examples
 
