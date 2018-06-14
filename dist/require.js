@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
 const path = require("path");
 const util = require("util");
-const helpers_1 = require("./helpers");
 const assert = require('assert');
 const Module = require('module');
 const debug = util.debuglog('module');
@@ -13,19 +11,8 @@ const _extensions = Object.create(null);
 _extensions['.js'] = function (module, filename) {
     module.exports = NativeRequire('./compile').compile(filename, module, module.noCacheFor, undefined);
 };
-_extensions['.json'] = function (module, filename) {
-    const content = fs.readFileSync(filename, 'utf8');
-    try {
-        module.exports = JSON.parse(helpers_1.stripBOM(content));
-    }
-    catch (err) {
-        err.message = filename + ': ' + err.message;
-        throw err;
-    }
-};
-_extensions['.node'] = function (module, filename) {
-    return process['dlopen'](module, path.toNamespacedPath(filename));
-};
+_extensions['.json'] = Module._extensions['.json'];
+_extensions['.node'] = Module._extensions['.node'];
 function updateChildren(parent, child, scan) {
     const children = parent && parent.children;
     if (children && !(scan && children.includes(child)))
