@@ -95,12 +95,11 @@
   test('call paths', () => {
     expect.assertions(1)
     const makeRequireFunction = requireTest()
-    const req = makeRequireFunction(createModule())
+    const mod = createModule()
+    const req = makeRequireFunction(mod)
     const path = './dummy/newGlobalScope'
     const filename = req.paths(path)
-    expect(filename).toEqual([
-      require.resolve(path).replace('/dummy/newGlobalScope.js', '')
-    ])
+    expect(filename).toEqual(Module._resolveLookupPaths(path, mod, true))
   })
 
   test('call require without arguments', () => {

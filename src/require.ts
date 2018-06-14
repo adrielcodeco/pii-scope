@@ -1,7 +1,5 @@
-import * as fs from 'fs'
 import * as path from 'path'
 import * as util from 'util'
-import { stripBOM } from './helpers'
 const assert = require('assert')
 const Module = require('module')
 
@@ -21,23 +19,10 @@ _extensions['.js'] = function (module: any, filename: string) {
 }
 
 // Native extension for .json
-_extensions['.json'] = function (module: any, filename: string) {
-  const content = fs.readFileSync(filename, 'utf8')
-  try {
-    module.exports = JSON.parse(stripBOM(content))
-  } catch (err) {
-    err.message = filename + ': ' + err.message
-    throw err
-  }
-}
+_extensions['.json'] = Module._extensions['.json']
 
 // Native extension for .node
-_extensions['.node'] = function (module: any, filename: string) {
-  return (process as any)['dlopen'](
-    module,
-    (path as any).toNamespacedPath(filename)
-  )
-}
+_extensions['.node'] = Module._extensions['.node']
 
 function updateChildren (parent: any, child: any, scan: any) {
   const children = parent && parent.children
