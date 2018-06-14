@@ -8,8 +8,10 @@
     "lint-fix": "tslint --project tsconfig.lint.json --fix -t verbose",
     "lintStaged": "lint-staged",
     "test": "jest --coverage=false",
-    "test-coverage": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test-coverage": "jest",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "build": "gulp dist-clean && tsc -d",
+    "build-addon": "gulp build-addon",
     "precommit": "gulp precommit"
   },
   "homepage": "https://github.com/adrielcodeco/pii-scope",

@@ -6,7 +6,11 @@ node_js:
   - "7"
   - "6"
   - "5"
+install:
+  - npm i -g node-gyp
 script:
+  - npm run build-addon
   - npm run build
   - npm run lint
   - npm run test-coverage
+  - npm run coveralls

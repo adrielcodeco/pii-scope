@@ -3,12 +3,13 @@ const gulp = require('gulp')
 const util = require('gulp-util')
 const prompt = require('gulp-prompt')
 
-let tasks = [
+const tasks = [
   'dist-clean',
   'npm-build',
   'npm-lint',
   'npm-lintfix',
   'npm-test',
+  'build-addon',
   'precommit'
 ]
 
