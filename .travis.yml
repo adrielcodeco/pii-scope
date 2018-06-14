@@ -8,6 +8,8 @@ node_js:
 branches:
   only:
     - master
+env:
+  - Version="1.0"
 install:
   - npm i
   - npm i -g node-gyp
@@ -17,3 +19,14 @@ script:
   - npm run lint
   - npm run test-coverage
   - npm run coveralls
+deploy:
+  - provider: npm
+    email: $NPM_EMAIL
+    api_key: $NPM_AUTH_TOKEN
+    skip_cleanup: true
+    on:
+      branch: master
+  - provider: releases
+    api_key: $GITHUB_OAUTH_TOKEN
+    file: $TRAVIS_BUILD_DIR
+    skip_cleanup: true
