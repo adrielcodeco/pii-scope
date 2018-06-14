@@ -4,7 +4,7 @@ Pii Scope is library to create new global scopes
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Build Status](https://travis-ci.org/adrielcodeco/pii-scope.svg?branch=master)](https://travis-ci.org/adrielcodeco/pii-scope)
-[![Coverage Status](https://coveralls.io/repos/github/adrielcodeco/pii-scope/badge.svg)](https://coveralls.io/github/adrielcodeco/pii-scope)
+[![Coverage Status](https://coveralls.io/repos/github/adrielcodeco/pii-scope/badge.svg?branch=master)](https://coveralls.io/github/adrielcodeco/pii-scope?branch=master)
 
 [![NPM](https://nodei.co/npm/@pii/scope.png)](https://npmjs.org/package/@pii/scope)
 
