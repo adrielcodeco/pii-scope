@@ -1,4 +1,4 @@
-export {}
+/* eslint-env jest */
 
 const path = require('path')
 const Module = require('module')

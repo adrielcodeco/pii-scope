@@ -1,4 +1,4 @@
-export {}
+/* eslint-env jest */
 
 const vm = require('vm')
 const Context = require('../src/context').default
@@ -10,7 +10,7 @@ const requireTest = () => {
   return require('../src/require').makeRequireFunction
 }
 
-const checkNewGlobalScopeInstance = (instance: any): void => {
+const checkNewGlobalScopeInstance = instance => {
   expect(instance).toBeDefined()
   expect(instance.prototype).toBeDefined()
   const keys = Reflect.ownKeys(instance.prototype)
@@ -50,7 +50,7 @@ test('call makeRequireFunction without arguments', () => {
 test('call makeRequireFunction', () => {
   expect.assertions(9)
   const makeRequireFunction = requireTest()
-  let req: any
+  let req
   expect(() => {
     req = makeRequireFunction(createModule())
   }).not.toThrow()
@@ -171,7 +171,7 @@ test('require recursive', () => {
   expect.assertions(3)
   const makeRequireFunction = requireTest()
   const req = makeRequireFunction(createModule())
-  let test: any
+  let test
   expect(() => {
     test = req('./dummy/recursive')
   }).not.toThrow()
@@ -183,7 +183,7 @@ test('require json', () => {
   expect.assertions(3)
   const makeRequireFunction = requireTest()
   const req = makeRequireFunction(createModule())
-  let test: any
+  let test
   expect(() => {
     test = req('./dummy/test.json')
   }).not.toThrow()

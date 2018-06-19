@@ -7,13 +7,14 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "lint": "tslint --project tsconfig.lint.json -t verbose",
-    "lint-fix": "tslint --project tsconfig.lint.json --fix -t verbose",
-    "lintStaged": "lint-staged",
+    "prettier": "prettier --parser flow --write",
+    "lint": "eslint . --cache",
+    "flow-typed:install": "flow-typed install",
+    "typecheck": "flow check",
     "test": "jest --coverage=false",
     "test-coverage": "jest",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "build": "gulp dist-clean && tsc -d",
+    "build": "gulp dist-clean && babel src/ -d dist/",
     "build-addon": "gulp build-addon",
     "precommit": "gulp precommit"
   },
@@ -36,35 +37,43 @@
     "url": "https://github.com/adrielcodeco/pii-scope.git"
   },
   "license": "MIT",
-  "lint-staged": {
-    "*.ts": [
-      "npm run lint-fix",
-      "git add"
-    ]
-  },
   "devDependencies": {
-    "@types/jest": "^23.0.0",
-    "@types/node": "^10.3.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-syntax-trailing-function-commas": "^6.22.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-plugin-transform-es2015-spread": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-transform-strict-mode": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-register": "^6.26.0",
     "coveralls": "^3.0.1",
+    "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-flowtype": "^2.49.3",
     "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jest": "^21.17.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
+    "flow-bin": "^0.74.0",
+    "flow-typed": "^2.4.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.4.0",
     "gulp-prompt": "^1.0.1",
     "gulp-run-command": "0.0.9",
     "husky": "^0.14.3",
     "jest": "^23.1.0",
-    "lint-staged": "^7.2.0",
     "prettier": "^1.13.4",
     "prettier-eslint": "^8.8.1",
-    "run-sequence": "^2.2.1",
-    "ts-jest": "^22.4.6",
-    "ts-node": "^6.1.0",
-    "tslint": "^5.10.0",
-    "tslint-config-standard": "^7.0.0",
-    "typescript": "^2.9.1"
+    "prettier-eslint-cli": "^4.7.1",
+    "run-sequence": "^2.2.1"
   }
 }

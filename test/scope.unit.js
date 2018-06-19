@@ -1,4 +1,4 @@
-export {}
+/* eslint-env jest */
 
 const requireTest = () => {
   // require scope
