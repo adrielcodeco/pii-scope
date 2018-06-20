@@ -1,3 +1,12 @@
+/**
+ * Copyright 2018-present, CODECO. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
+ */
+
 import * as path from 'path'
 import * as util from 'util'
 const assert = require('assert')
@@ -10,11 +19,15 @@ const _extensions = Object.create(null)
 
 // Native extension for .js
 _extensions['.js'] = function (module: any, filename: string) {
-  module.exports = NativeRequire('./compile').compile(
-    filename,
+  Reflect.set(
     module,
-    module.noCacheFor,
-    undefined
+    'exports',
+    NativeRequire('./compile').compile(
+      filename,
+      module,
+      module.noCacheFor,
+      undefined
+    )
   )
 }
 
@@ -66,10 +79,7 @@ export function makeRequireFunction (mod: any) {
         console.warn(msg)
         return {}
       }
-      if (
-        !path.isAbsolute(request) &&
-        !noCacheFor.includes(filename)
-      ) {
+      if (!path.isAbsolute(request) && !noCacheFor.includes(filename)) {
         const cachedModule = _cache[filename]
         if (cachedModule) {
           if (cachedModule.loaded) {
@@ -87,14 +97,11 @@ export function makeRequireFunction (mod: any) {
       const module = new ParentModule(filename, mod)
       module.noCacheFor = noCacheFor
       module.context = mod.context
-      if (
-        !path.isAbsolute(request) &&
-        !noCacheFor.includes(filename)
-      ) {
+      if (!path.isAbsolute(request) && !noCacheFor.includes(filename)) {
         _cache[filename] = module
       }
       tryModuleLoad(module, filename)
-      return module.exports
+      return Reflect.get(module, 'exports')
     } finally {
       // does nothing
     }
@@ -118,11 +125,10 @@ export function makeRequireFunction (mod: any) {
     return Module._resolveLookupPaths(request, mod, true)
   }
 
-  const requireAny = require as any
-  requireAny['resolve'] = resolve
-  requireAny['paths'] = paths
-  requireAny['main'] = process.mainModule
-  requireAny['extensions'] = _extensions
-  requireAny['cache'] = _cache
+  require['resolve'] = resolve
+  require['paths'] = paths
+  require['main'] = process.mainModule
+  require['extensions'] = _extensions
+  require['cache'] = _cache
   return require
 }

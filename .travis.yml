@@ -5,9 +5,16 @@ node_js:
   - "8"
   - "7"
   - "6"
+os:
+  - linux
+  - osx
 branches:
   only:
     - master
+cache:
+  directories:
+    - ".eslintcache"
+    - "node_modules"
 install:
   - npm i
   - npm i -g node-gyp
@@ -15,6 +22,8 @@ script:
   - npm run build-addon
   - npm run build
   - npm run lint
+  - npm run flow-typed:install
+  - npm run typecheck
   - npm run test-coverage
   - npm run coveralls
 before_deploy:
