@@ -14,7 +14,6 @@ branches:
 cache:
   directories:
     - ".eslintcache"
-    - "flow-typed/npm"
     - "node_modules"
 install:
   - npm i
@@ -23,7 +22,6 @@ script:
   - npm run build-addon
   - npm run build
   - npm run lint
-  - npm run flow-typed:install
   - npm run typecheck
   - npm run test-coverage
   - npm run coveralls

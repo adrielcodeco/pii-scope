@@ -10,7 +10,6 @@ branches:
     - master
 cache:
   - .eslintcache
-  - flow-typed/npm
   - node_modules
 install:
   - ps: Install-Product node $env:nodejs_version x64
@@ -21,7 +20,6 @@ test_script:
   - npm run build-addon
   - npm run build
   - npm run lint
-  - npm run flow-typed:install
   - npm run typecheck
   - npm run test-coverage
   - npm run coveralls
