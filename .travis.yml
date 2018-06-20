@@ -8,9 +8,13 @@ node_js:
 os:
   - linux
   - osx
+git:
+  depth: false
+  quiet: true
 branches:
   only:
     - master
+    - /^v\d{1,2}\.\d{1,2}\.\d{1,4}$/
 cache:
   directories:
     - ".eslintcache"
