@@ -11,7 +11,10 @@ const tasks = [
   'npm-test',
   'build-addon',
   'precommit',
-  'coveralls'
+  'coveralls',
+  'pkgIncreaseVersion',
+  'gitTag',
+  'increaseVersion'
 ]
 
 tasks.forEach(task => {
