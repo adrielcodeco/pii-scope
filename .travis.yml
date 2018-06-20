@@ -27,9 +27,19 @@ script:
   - npm run coveralls
 jobs:
   include:
-    - stage: deploy
-      before_deploy:
-        - git tag "$(node -p "require('./package.json').version").$TRAVIS_BUILD_NUMBER"
+    - stage: Github Release
+      install: skip
+      script: skip
+      deploy:
+        - provider: releases
+          api_key: $GITHUB_OAUTH_TOKEN
+          file: $TRAVIS_BUILD_DIR
+          skip_cleanup: true
+          on:
+            tags: true
+    - stage: Deploy
+      install: skip
+      script: skip
       deploy:
         - provider: npm
           email: $NPM_EMAIL
@@ -37,7 +47,9 @@ jobs:
           skip_cleanup: true
           on:
             branch: master
-        - provider: releases
-          api_key: $GITHUB_OAUTH_TOKEN
-          file: $TRAVIS_BUILD_DIR
-          skip_cleanup: true
+            tags: true
+stages:
+  - test
+  - name: Github Release
+  - name: Deploy
+    if: branch = master AND tag IS present
