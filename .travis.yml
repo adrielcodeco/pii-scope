@@ -36,6 +36,7 @@ jobs:
           file: $TRAVIS_BUILD_DIR
           skip_cleanup: true
           on:
+            branch: master
             tags: true
     - stage: Deploy
       install: skip
@@ -52,4 +53,3 @@ stages:
   - test
   - name: Github Release
   - name: Deploy
-    if: branch = master AND tag IS present
