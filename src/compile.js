@@ -1,10 +1,19 @@
+/**
+ * Copyright 2018-present, CODECO. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
+ */
+
 import * as fs from 'fs'
 import * as path from 'path'
 import * as vm from 'vm'
+import NativeModule from 'module'
 import { stripBOM, stripShebang } from './helpers'
 import { makeRequireFunction } from './require'
 import Context from './context'
-const NatieModule = require('module')
 
 const _cache = Object.create(null)
 
@@ -12,18 +21,17 @@ export function compile (
   filename: string,
   mod: any,
   noCacheFor: string[],
-  globals: object
+  globals: {}
 ): any {
   if (!filename) {
     throw new Error('the filename argument is invalid')
   }
-  const Module = mod ? mod.constructor : NatieModule
+  const Module = mod ? mod.constructor : (NativeModule: Function)
   const sandbox = new Context()
   sandbox.console = console
   sandbox.process = process
   sandbox.global = globals
-  if (globals) vm.createContext(sandbox)
-  const context = globals ? sandbox : (mod || []).context
+  const context: vm$Context = globals ? vm.createContext(sandbox) : (mod || {}).context
   let func
   if (filename in _cache) {
     const script = _cache[filename]
@@ -32,7 +40,7 @@ export function compile (
     let content = fs.readFileSync(filename, 'utf8')
     content = stripBOM(content)
     content = stripShebang(content)
-    const wrapper = NatieModule.wrap(content)
+    const wrapper = NativeModule.wrap(content)
     const script = new vm.Script(wrapper, {
       filename: filename,
       lineOffset: 0,
@@ -43,7 +51,7 @@ export function compile (
   }
   const _module = new Module(filename, mod)
   _module.filename = filename
-  _module.paths = NatieModule._nodeModulePaths(path.dirname(filename))
+  _module.paths = NativeModule._nodeModulePaths(path.dirname(filename))
   _module.noCacheFor = noCacheFor || []
   _module.context = context
   _module.loaded = true

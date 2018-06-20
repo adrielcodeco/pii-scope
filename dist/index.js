@@ -1,10 +1,24 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const scope_1 = require("./scope");
-class default_1 {
-    static New(path, options) {
-        return scope_1.default(path, options);
-    }
-}
-exports.default = default_1;
-//# sourceMappingURL=index.js.map
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _scope = require('./scope');
+
+var _scope2 = _interopRequireDefault(_scope);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = class {
+  static New(path, options) {
+    return (0, _scope2.default)(path, options);
+  }
+}; /**
+    * Copyright 2018-present, CODECO. All rights reserved.
+    *
+    * This source code is licensed under the MIT license found in the
+    * LICENSE file in the root directory of this source tree.
+    *
+    * 
+    */

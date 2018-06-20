@@ -1,3 +1,5 @@
 **/node_modules
 **/coverage
 **/npm-debug*
+**/flow-typed/npm
+.eslintcache

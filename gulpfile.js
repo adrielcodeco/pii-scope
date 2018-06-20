@@ -7,14 +7,15 @@ const tasks = [
   'dist-clean',
   'npm-build',
   'npm-lint',
-  'npm-lintfix',
+  'npm-typecheck',
   'npm-test',
   'build-addon',
-  'precommit'
+  'precommit',
+  'coveralls'
 ]
 
 tasks.forEach(task => {
-  const taskFile = path.resolve('./devops', task + '.js')
+  const taskFile = path.resolve(__dirname, './devops/gulp', task + '.js')
   require(taskFile)
 })
 
@@ -30,11 +31,15 @@ gulp.task('select-task', function () {
       function (result) {
         // Enforce only one selection.
         if (result.task.length > 1) {
-          util.colors.red('Please select one task at a time!')
+          util.log(util.colors.red('Error: More than one selected task!'))
           return
         }
         // Runs the task selected by the user.
         const selectedTask = result.task[0]
+        if (!selectedTask) {
+          util.log(util.colors.red('Error: No task selected!'))
+          return
+        }
         util.log('Running task: ' + util.colors.green(selectedTask))
         gulp.start(selectedTask)
       }

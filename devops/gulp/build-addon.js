@@ -4,7 +4,7 @@ const run = require('gulp-run-command').default
 const runSequence = require('run-sequence')
 const clean = require('gulp-clean')
 
-const addonDir = path.resolve(__dirname, '../test/dummy/addon')
+const addonDir = path.resolve(__dirname, '../../test/dummy/addon')
 
 gulp.task('node-gyp-configure', run(`node-gyp -C "${addonDir}" configure`))
 gulp.task('node-gyp-build', run(`node-gyp -C "${addonDir}" build`))

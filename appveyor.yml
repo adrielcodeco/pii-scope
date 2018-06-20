@@ -1,0 +1,28 @@
+environment:
+  matrix:
+    - nodejs_version: "10"
+    - nodejs_version: "9"
+    - nodejs_version: "8"
+    - nodejs_version: "7"
+    - nodejs_version: "6"
+branches:
+  only:
+    - master
+cache:
+  - .eslintcache
+  - flow-typed/npm
+  - node_modules
+install:
+  - ps: Install-Product node $env:nodejs_version x64
+  - node --version
+  - npm i
+  - npm i -g node-gyp
+test_script:
+  - npm run build-addon
+  - npm run build
+  - npm run lint
+  - npm run flow-typed:install
+  - npm run typecheck
+  - npm run test-coverage
+  - npm run coveralls
+build: off
