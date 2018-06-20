@@ -9,8 +9,9 @@ branches:
   only:
     - master
 cache:
-  - node_modules
   - .eslintcache
+  - flow-typed/npm
+  - node_modules
 install:
   - ps: Install-Product node $env:nodejs_version x64
   - node --version

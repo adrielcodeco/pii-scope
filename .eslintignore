@@ -2,4 +2,5 @@ coverage/*
 dist/*
 docs/*
 examples/*
+flow-typed/*
 node_modules/*

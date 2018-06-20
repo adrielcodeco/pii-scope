@@ -13,7 +13,7 @@
     "typecheck": "flow check",
     "test": "jest --coverage=false",
     "test-coverage": "jest",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "coveralls": "gulp coveralls",
     "build": "gulp dist-clean && babel src/ -d dist/",
     "build-addon": "gulp build-addon",
     "precommit": "gulp precommit"
@@ -67,6 +67,7 @@
     "flow-typed": "^2.4.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.4.0",
+    "gulp-coveralls": "^0.1.4",
     "gulp-prompt": "^1.0.1",
     "gulp-run-command": "0.0.9",
     "husky": "^0.14.3",

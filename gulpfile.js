@@ -10,7 +10,8 @@ const tasks = [
   'npm-typecheck',
   'npm-test',
   'build-addon',
-  'precommit'
+  'precommit',
+  'coveralls'
 ]
 
 tasks.forEach(task => {
