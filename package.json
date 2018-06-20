@@ -1,6 +1,6 @@
 {
   "name": "@pii/scope",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "A library to create new global scopes",
   "main": "dist/index.js",
   "engines": {
