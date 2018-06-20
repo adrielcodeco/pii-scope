@@ -25,16 +25,19 @@ script:
   - npm run typecheck
   - npm run test-coverage
   - npm run coveralls
-before_deploy:
-  - git tag "$(node -p "require('./package.json').version").$TRAVIS_BUILD_NUMBER"
-deploy:
-  - provider: npm
-    email: $NPM_EMAIL
-    api_key: $NPM_AUTH_TOKEN
-    skip_cleanup: true
-    on:
-      branch: master
-  - provider: releases
-    api_key: $GITHUB_OAUTH_TOKEN
-    file: $TRAVIS_BUILD_DIR
-    skip_cleanup: true
+jobs:
+  include:
+    - stage: deploy
+      before_deploy:
+        - git tag "$(node -p "require('./package.json').version").$TRAVIS_BUILD_NUMBER"
+      deploy:
+        - provider: npm
+          email: $NPM_EMAIL
+          api_key: $NPM_AUTH_TOKEN
+          skip_cleanup: true
+          on:
+            branch: master
+        - provider: releases
+          api_key: $GITHUB_OAUTH_TOKEN
+          file: $TRAVIS_BUILD_DIR
+          skip_cleanup: true
