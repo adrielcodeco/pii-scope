@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const util = require("util");
-const assert = require('assert');
+const assert_1 = require("assert");
 const Module = require('module');
 const debug = util.debuglog('module');
 const NativeRequire = require;
@@ -21,7 +21,7 @@ function updateChildren(parent, child, scan) {
 function tryModuleLoad(module, filename) {
     try {
         debug('load %j for module %j', filename, module.id);
-        assert(!module.loaded);
+        assert_1.default(!module.loaded);
         module.filename = filename;
         module.paths = Module._nodeModulePaths(path.dirname(filename));
         let extension = path.extname(filename) || '.js';
