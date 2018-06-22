@@ -4,6 +4,16 @@ module.exports = {
   collectCoverage: true,
   coverageReporters: ['lcov', 'text'],
   collectCoverageFrom: ['src/**'],
-  moduleFileExtensions: ['js', 'json', 'node'],
-  testRegex: '/.*\\.unit\\.js$'
+  moduleFileExtensions: ['ts', 'js', 'json', 'node'],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest'
+  },
+  globals: {
+    'ts-jest': {
+      tsConfigFile: 'tsconfig.json',
+      ignoreCoverageForDecorators: true,
+      ignoreCoverageForAllDecorators: true
+    }
+  },
+  testRegex: '/.*\\.unit\\.[tj]s$'
 }

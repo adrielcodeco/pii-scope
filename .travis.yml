@@ -17,7 +17,6 @@ branches:
     - /^v\d{1,2}\.\d{1,2}\.\d{1,4}$/
 cache:
   directories:
-    - ".eslintcache"
     - "node_modules"
 install:
   - npm i
@@ -26,7 +25,6 @@ script:
   - npm run build-addon
   - npm run build
   - npm run lint
-  - npm run typecheck
   - npm run test-coverage
   - npm run coveralls
 jobs:
@@ -56,4 +54,6 @@ jobs:
 stages:
   - test
   - name: Github Release
+    if: tag IS present
   - name: Deploy
+    if: tag IS present
