@@ -4,13 +4,12 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-export {}
+/* eslint-env jest */
 
 const path = require('path')
 const Module = require('module')
 const vm = require('vm')
-const Context = require('../src/context').default
+const Context = require('../dist/context').default
 
 const createModule = () => {
   const mod = new Module(__filename, module)
@@ -29,7 +28,7 @@ const createModule = () => {
 
 const requireTest = () => {
   // require scope
-  const compile = module.require('../src/compile').compile
+  const compile = module.require('../dist/compile').compile
   for (let c in compile._cache) {
     delete compile._cache[c]
   }

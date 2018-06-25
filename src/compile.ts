@@ -8,10 +8,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import * as vm from 'vm'
-import NativeModule from 'module'
 import { stripBOM, stripShebang } from './helpers'
 import { makeRequireFunction } from './require'
 import Context from './context'
+const NativeModule = require('module')
 
 const _cache = Object.create(null)
 
@@ -49,7 +49,7 @@ export function compile (
   }
   const _module = new Module(filename, mod)
   _module.filename = filename
-  _module.paths = (NativeModule as any)._nodeModulePaths(path.dirname(filename))
+  _module.paths = NativeModule._nodeModulePaths(path.dirname(filename))
   _module.noCacheFor = noCacheFor || []
   _module.context = context
   _module.loaded = true

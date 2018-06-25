@@ -4,11 +4,13 @@ const util = require('gulp-util')
 const prompt = require('gulp-prompt')
 
 const tasks = [
-  'dist-clean',
+  'clean-dist',
+  'clean-coverage',
   'npm-build',
   'npm-lint',
   'npm-typecheck',
   'npm-test',
+  'build',
   'build-addon',
   'precommit',
   'coveralls',

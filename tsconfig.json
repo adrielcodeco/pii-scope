@@ -1,23 +1,11 @@
 {
+  "extends": "./tsconfig.babel.json",
   "compilerOptions": {
     "outDir": "dist/",
-    "stripInternal":true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "removeComments": true,
-    "preserveConstEnums": false,
     "diagnostics": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true,
-    "allowJs": false,
-    "strict": true,
-    "module": "commonjs",
-    "target": "es2016",
-    "lib": ["esnext"]
   },
   "include": ["src/"],
   "exclude": ["devops", "node_modules"]

@@ -4,17 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-export {}
+/* eslint-env jest */
 
 const vm = require('vm')
-const Context = require('../src/context').default
+const Context = require('../dist/context').default
 const path = require('path')
 const Module = require('module')
 
 const requireTest = () => {
   // require scope
-  return require('../src/require').makeRequireFunction
+  return require('../dist/require').makeRequireFunction
 }
 
 const checkNewGlobalScopeInstance = instance => {
