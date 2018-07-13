@@ -8,7 +8,7 @@
 
 const requireTest = () => {
   // require scope
-  return require('../dist/helpers')
+  return require('../src/helpers')
 }
 
 test('require', () => {

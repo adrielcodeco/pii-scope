@@ -4,19 +4,18 @@ const util = require('gulp-util')
 const prompt = require('gulp-prompt')
 
 const tasks = [
-  'clean-dist',
-  'clean-coverage',
-  'npm-build',
-  'npm-lint',
-  'npm-typecheck',
-  'npm-test',
-  'build',
   'build-addon',
-  'precommit',
+  'build',
+  'clean-coverage',
+  'clean-dist',
   'coveralls',
-  'pkgIncreaseVersion',
   'gitTag',
-  'increaseVersion'
+  'increaseVersion',
+  'lint',
+  'pkgIncreaseVersion',
+  'precommit',
+  'test',
+  'typecheck'
 ]
 
 tasks.forEach(task => {

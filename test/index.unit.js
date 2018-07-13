@@ -9,7 +9,7 @@ const testKey = 'Pii'
 
 const requireTest = () => {
   // require scope
-  return require('../dist').default
+  return require('../src').default
 }
 
 const useNativeModule = () => {

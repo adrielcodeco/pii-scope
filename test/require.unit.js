@@ -7,13 +7,13 @@
 /* eslint-env jest */
 
 const vm = require('vm')
-const Context = require('../dist/context').default
+const Context = require('../src/context').default
 const path = require('path')
 const Module = require('module')
 
 const requireTest = () => {
   // require scope
-  return require('../dist/require').makeRequireFunction
+  return require('../src/require').makeRequireFunction
 }
 
 const checkNewGlobalScopeInstance = instance => {

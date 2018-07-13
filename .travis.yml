@@ -22,10 +22,11 @@ install:
   - npm i
   - npm i -g node-gyp
 script:
-  - npm run build-addon
-  - npm run build
   - npm run lint
-  - npm run test-coverage
+  - npm run typecheck
+  - npm run build
+  - npm run build-addon
+  - npm run test
   - npm run coveralls
 jobs:
   include:

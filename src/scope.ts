@@ -10,8 +10,8 @@ import { compile } from './compile'
 import Module from 'module'
 
 export type ScopeOptions = {
-  noCacheFor: string[],
-  parentModule: Module
+  noCacheFor?: string[],
+  parentModule?: Module
 }
 
 export default function Scope (path: string, options: ScopeOptions) {

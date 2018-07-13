@@ -9,7 +9,6 @@ branches:
   only:
     - master
 cache:
-  - .eslintcache
   - node_modules
 install:
   - ps: Install-Product node $env:nodejs_version x64
@@ -17,9 +16,9 @@ install:
   - npm i
   - npm i -g node-gyp
 test_script:
-  - npm run build-addon
-  - npm run build
   - npm run lint
-  - npm run test-coverage
-  - npm run coveralls
+  - npm run typecheck
+  - npm run build
+  - npm run build-addon
+  - npm run test
 build: off

@@ -8,7 +8,7 @@
 
 const requireTest = () => {
   // require scope
-  return require('../dist/scope').default
+  return require('../src/scope').default
 }
 
 const useNativeModule = () => {

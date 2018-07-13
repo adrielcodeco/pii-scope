@@ -7,8 +7,8 @@
 
 import * as path from 'path'
 import * as util from 'util'
-import * as assert from 'assert'
 const Module = require('module')
+const assert = require('assert')
 
 const debug = util.debuglog('module')
 const NativeRequire = require
