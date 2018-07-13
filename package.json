@@ -12,6 +12,7 @@
     "test": "gulp test",
     "coveralls": "gulp coveralls",
     "build": "gulp build",
+    "build-addon": "gulp build-addon",
     "precommit": "gulp precommit"
   },
   "homepage": "https://github.com/adrielcodeco/pii-scope",
