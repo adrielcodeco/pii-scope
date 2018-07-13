@@ -17,17 +17,16 @@ branches:
     - /^v\d{1,2}\.\d{1,2}\.\d{1,4}$/
 cache:
   directories:
-    - ".eslintcache"
     - "node_modules"
 install:
   - npm i
   - npm i -g node-gyp
 script:
-  - npm run build-addon
-  - npm run build
   - npm run lint
   - npm run typecheck
-  - npm run test-coverage
+  - npm run build
+  - npm run build-addon
+  - npm run test
   - npm run coveralls
 jobs:
   include:
@@ -56,4 +55,6 @@ jobs:
 stages:
   - test
   - name: Github Release
+    if: tag IS present
   - name: Deploy
+    if: tag IS present

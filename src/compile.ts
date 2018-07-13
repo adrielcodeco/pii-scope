@@ -1,19 +1,31 @@
-'use strict'
-Object.defineProperty(exports, '__esModule', { value: true })
-const fs = require('fs')
-const path = require('path')
-const vm = require('vm')
-const helpers_1 = require('./helpers')
-const require_1 = require('./require')
-const context_1 = require('./context')
+/**
+ * Copyright 2018-present, CODECO. All rights reserved.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+import * as fs from 'fs'
+import * as path from 'path'
+import * as vm from 'vm'
+import { stripBOM, stripShebang } from './helpers'
+import { makeRequireFunction } from './require'
+import Context from './context'
 const NativeModule = require('module')
+
 const _cache = Object.create(null)
-function compile (filename, mod, noCacheFor, globals) {
+
+export function compile (
+  filename: string,
+  mod: any,
+  noCacheFor: string[],
+  globals: {}
+): any {
   if (!filename) {
     throw new Error('the filename argument is invalid')
   }
-  const Module = mod ? mod.constructor : NativeModule
-  const sandbox = new context_1.default()
+  const Module = mod ? mod.constructor : NativeModule as Function
+  const sandbox = new Context()
   sandbox.console = console
   sandbox.process = process
   sandbox.global = globals
@@ -24,8 +36,8 @@ function compile (filename, mod, noCacheFor, globals) {
     func = context ? script.runInContext(context) : script.runInThisContext()
   } else {
     let content = fs.readFileSync(filename, 'utf8')
-    content = helpers_1.stripBOM(content)
-    content = helpers_1.stripShebang(content)
+    content = stripBOM(content)
+    content = stripShebang(content)
     const wrapper = NativeModule.wrap(content)
     const script = new vm.Script(wrapper, {
       filename: filename,
@@ -41,12 +53,10 @@ function compile (filename, mod, noCacheFor, globals) {
   _module.noCacheFor = noCacheFor || []
   _module.context = context
   _module.loaded = true
-  const customRequire = require_1.makeRequireFunction(_module)
+  const customRequire = makeRequireFunction(_module)
   const dirname = path.dirname(filename)
   func.call(context, _module.exports, customRequire, _module, filename, dirname)
   return _module.exports
 }
-exports.compile = compile
-Reflect.set(compile, '_cache', _cache)
 
-//# sourceMappingURL=compile.js.map
+Reflect.set(compile, '_cache', _cache)
