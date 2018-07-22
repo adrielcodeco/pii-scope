@@ -3,15 +3,17 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @flow
  */
-
 import { isAbsolute } from 'path'
-import { compile } from './compile'
+import { moduleLoader } from './moduleLoader'
 import Module from 'module'
 
 export type ScopeOptions = {
-  noCacheFor?: string[],
+  noCacheFor?: string[]
   parentModule?: Module
+  globals?: {} | undefined
 }
 
 export default function Scope (path: string, options: ScopeOptions) {
@@ -19,29 +21,33 @@ export default function Scope (path: string, options: ScopeOptions) {
     throw new Error('the path argument is invalid')
   }
   const defaultParams: {
-    noCacheFor: string[],
+    noCacheFor: string[]
     parentModule: Module
+    globals: {} | undefined
   } = {
     noCacheFor: [],
-    parentModule: module
+    parentModule: module,
+    globals: Object.create(null)
   }
-  let { noCacheFor, parentModule } = Object.assign({}, defaultParams, options)
-  let filename
+  let { noCacheFor, parentModule, globals } = Object.assign(
+    {},
+    defaultParams,
+    options
+  )
   if (!isAbsolute(path)) {
     throw new Error('the path argument is not an absolute path')
-  } else {
-    filename = require.resolve(path)
   }
   noCacheFor = noCacheFor
     .map(m => {
       if (isAbsolute(m)) {
-        return require.resolve(m)
+        return m
       }
       return ''
     })
     .filter(i => i)
-  if (!noCacheFor.includes(filename)) {
-    noCacheFor.push(filename)
+  if (!noCacheFor.includes(path)) {
+    noCacheFor.push(path)
   }
-  return compile(filename, parentModule, noCacheFor, {})
+  (parentModule as any).noCacheFor = noCacheFor
+  return moduleLoader(path, parentModule, globals)
 }
