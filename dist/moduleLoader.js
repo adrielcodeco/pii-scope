@@ -14,18 +14,25 @@ function moduleLoader (request, parentModule, globals) {
   if (!request) {
     throw new Error('the request argument is invalid')
   }
+  if (process.env.CHECK_CR === 'true') {
+    console.log(`\u001b[33mLoading module: ${request}\u001b[39m`)
+  }
   const filename = NativeModule._resolveFilename(request, parentModule, false)
+  if (process.env.CHECK_CR === 'true') {
+    console.log(`  from: ${filename}`)
+    console.log(`  parent module: ${parentModule.filename || ''}`)
+  }
   let msg = `Recursive module load detected!\r\n`
   msg += `The "${request}" module located in "${filename}" will be loaded`
   msg += `, but this is not a best practice\r\n`
   msg += `This could be a mistake, check your code and correct.\r\n`
-  msg += `Parent module "${parentModule.filename}".`
+  msg += `Parent module "${parentModule.filename}".\r\n`
   if (
     parentModule._recursive &&
     filename in parentModule._recursive &&
     parentModule._recursive[filename] === request
   ) {
-    console.warn(msg)
+    console.warn(`\u001b[31m${msg}\u001b[39m`)
     return {}
   }
   if (
@@ -39,7 +46,7 @@ function moduleLoader (request, parentModule, globals) {
         updateChildren(parentModule, cachedModule, true)
         return cachedModule.exports
       } else {
-        console.warn(msg)
+        console.warn(`\u001b[31m${msg}\u001b[39m`)
         if (!parentModule._recursive) {
           parentModule._recursive = Object.create(null)
         }
