@@ -10,6 +10,20 @@ const _scriptCache = Object.create(null)
 const NativeRequire = require
 const _extensions = Object.create(null)
 
+export function initModule (filename: string, parentModule: any = {}) {
+  const ParentModule = parentModule.constructor || NativeModule
+  const _module = new ParentModule(filename, parentModule)
+  _module.noCacheFor = parentModule.noCacheFor || []
+  _module.filename = filename
+  _module.paths = NativeModule._nodeModulePaths(path.dirname(filename))
+  _module._recursive = parentModule._recursive || Object.create(null)
+  _module.context = parentModule.context
+  if (parentModule.noCacheFor && !parentModule.noCacheFor.includes(filename)) {
+    _cache[filename] = _module
+  }
+  return _module
+}
+
 export function moduleLoader (request: string, parentModule: any, globals: any) {
   if (!request) {
     throw new Error('the request argument is invalid')
@@ -57,16 +71,7 @@ export function moduleLoader (request: string, parentModule: any, globals: any) 
   if (!path.isAbsolute(request) && filename === request) {
     return NativeRequire(request)
   }
-  const ParentModule = parentModule.constructor
-  const _module = new ParentModule(filename, parentModule)
-  _module.noCacheFor = parentModule.noCacheFor || []
-  _module.filename = filename
-  _module.paths = NativeModule._nodeModulePaths(path.dirname(filename))
-  _module._recursive = parentModule._recursive || Object.create(null)
-  _module.context = parentModule.context
-  if (parentModule.noCacheFor && !parentModule.noCacheFor.includes(filename)) {
-    _cache[filename] = _module
-  }
+  const _module = initModule(filename, parentModule)
   let extension = path.extname(filename) || '.js'
   if (!_extensions[extension]) {
     extension = '.js'
@@ -105,7 +110,7 @@ export function compile (mod: any, filename: string, globals: any): any {
   if (!mod) {
     throw new Error('the mod argument is invalid')
   }
-  const sandbox = new Context(globals)
+  const sandbox = Context.makeContext(globals)
   const context = globals ? vm.createContext(sandbox) : mod.context
   let func
   if (filename in _scriptCache) {
