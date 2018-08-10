@@ -13,7 +13,7 @@ const Module = require('module')
 
 const requireTest = () => {
   // require scope
-  return require('../src/require').makeRequireFunction
+  return require('../src/moduleLoader').makeRequireFunction
 }
 
 const checkNewGlobalScopeInstance = instance => {
@@ -29,7 +29,7 @@ const createModule = () => {
   mod.paths = Module._nodeModulePaths(path.dirname(__filename))
   mod.noCacheFor = []
   mod.exports = module.exports
-  const context = new Context()
+  const context = Context.makeContext()
   context.console = console
   context.process = process
   vm.createContext(context)
@@ -116,7 +116,7 @@ test('call require without arguments', () => {
   const req = makeRequireFunction(createModule())
   expect(() => {
     req()
-  }).toThrowError(/the path argument is invalid/)
+  }).toThrowError(/the request argument is invalid/)
 })
 
 test('call require with non existing module', () => {

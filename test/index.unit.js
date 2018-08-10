@@ -8,7 +8,7 @@
 const testKey = 'Pii'
 
 const requireTest = () => {
-  // require scope
+  jest.resetModules()
   return require('../src').default
 }
 

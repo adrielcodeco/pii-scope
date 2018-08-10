@@ -8,7 +8,6 @@
 
 const path = require('path')
 const Module = require('module')
-const vm = require('vm')
 const Context = require('../src/context').default
 
 const createModule = () => {
@@ -17,22 +16,16 @@ const createModule = () => {
   mod.paths = Module._nodeModulePaths(path.dirname(__filename))
   mod.noCacheFor = []
   mod.exports = module.exports
-  const context = new Context()
+  const context = Context.makeContext()
   context.console = console
   context.process = process
-  vm.createContext(context)
-  mod.context = context
   mod.loaded = true
   return mod
 }
 
 const requireTest = () => {
-  // require scope
-  const compile = module.require('../src/compile').compile
-  for (let c in compile._cache) {
-    delete compile._cache[c]
-  }
-  return compile
+  jest.resetModules()
+  return module.require('../src/moduleLoader').compile
 }
 
 test('require', () => {
@@ -51,23 +44,22 @@ test('validation of invalid filename', () => {
 })
 
 test('compile dummy file without parent module', () => {
-  expect.assertions(3)
+  expect.assertions(1)
   const compile = requireTest()
   const filename = require.resolve('./dummy/newGlobalScope')
-  const NewGlobalScope = compile(filename)
-  expect(NewGlobalScope).toBeDefined()
-  expect(NewGlobalScope.prototype).toBeDefined()
-  const keys = Reflect.ownKeys(NewGlobalScope.prototype)
-  expect(keys).toEqual(expect.arrayContaining(['getGlobal', 'setGlobal']))
+  expect(() => {
+    compile(null, filename)
+  }).toThrowError(/the mod argument is invalid/)
 })
 
 test('compile dummy file with parent module', () => {
   expect.assertions(3)
   const compile = requireTest()
   const filename = require.resolve('./dummy/newGlobalScope')
-  const mod = createModule()
+  const initModule = module.require('../src/moduleLoader').initModule
+  const mod = initModule(filename, createModule())
   mod.context = undefined
-  const NewGlobalScope = compile(filename, mod)
+  const NewGlobalScope = compile(mod, filename)
   expect(NewGlobalScope).toBeDefined()
   expect(NewGlobalScope.prototype).toBeDefined()
   const keys = Reflect.ownKeys(NewGlobalScope.prototype)
@@ -78,9 +70,10 @@ test('compile dummy file with module cached', () => {
   expect.assertions(3)
   const compile = requireTest()
   const filename = require.resolve('./dummy/newGlobalScope')
-  const mod = createModule()
-  compile(filename, mod)
-  const NewGlobalScope = compile(filename, mod)
+  const initModule = module.require('../src/moduleLoader').initModule
+  const mod = initModule(filename, createModule())
+  compile(mod, filename)
+  const NewGlobalScope = compile(mod, filename)
   expect(NewGlobalScope).toBeDefined()
   expect(NewGlobalScope.prototype).toBeDefined()
   const keys = Reflect.ownKeys(NewGlobalScope.prototype)
@@ -91,10 +84,11 @@ test('compile dummy file with module cached without context', () => {
   expect.assertions(3)
   const compile = requireTest()
   const filename = require.resolve('./dummy/newGlobalScope')
-  const mod = createModule()
+  const initModule = module.require('../src/moduleLoader').initModule
+  const mod = initModule(filename, createModule())
   mod.context = undefined
-  compile(filename, mod)
-  const NewGlobalScope = compile(filename, mod)
+  compile(mod, filename)
+  const NewGlobalScope = compile(mod, filename)
   expect(NewGlobalScope).toBeDefined()
   expect(NewGlobalScope.prototype).toBeDefined()
   const keys = Reflect.ownKeys(NewGlobalScope.prototype)
@@ -105,7 +99,10 @@ test('compile dummy file with globals', () => {
   expect.assertions(4)
   const compile = requireTest()
   const filename = require.resolve('./dummy/newGlobalScope')
-  const NewGlobalScope = compile(filename, createModule(), null, {
+  const initModule = module.require('../src/moduleLoader').initModule
+  const mod = initModule(filename, createModule())
+  mod.context = undefined
+  const NewGlobalScope = compile(mod, filename, {
     pii: '@pii'
   })
   expect(NewGlobalScope).toBeDefined()

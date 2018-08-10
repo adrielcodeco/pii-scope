@@ -1,34 +1,37 @@
 'use strict'
 Object.defineProperty(exports, '__esModule', { value: true })
 const path_1 = require('path')
-const compile_1 = require('./compile')
+const moduleLoader_1 = require('./moduleLoader')
 function Scope (path, options) {
   if (!path) {
     throw new Error('the path argument is invalid')
   }
   const defaultParams = {
     noCacheFor: [],
-    parentModule: module
+    parentModule: module,
+    globals: Object.create(null)
   }
-  let { noCacheFor, parentModule } = Object.assign({}, defaultParams, options)
-  let filename
+  let { noCacheFor, parentModule, globals } = Object.assign(
+    {},
+    defaultParams,
+    options
+  )
   if (!path_1.isAbsolute(path)) {
     throw new Error('the path argument is not an absolute path')
-  } else {
-    filename = require.resolve(path)
   }
   noCacheFor = noCacheFor
     .map(m => {
       if (path_1.isAbsolute(m)) {
-        return require.resolve(m)
+        return m
       }
       return ''
     })
     .filter(i => i)
-  if (!noCacheFor.includes(filename)) {
-    noCacheFor.push(filename)
+  if (!noCacheFor.includes(path)) {
+    noCacheFor.push(path)
   }
-  return compile_1.compile(filename, parentModule, noCacheFor, {})
+  parentModule.noCacheFor = noCacheFor
+  return moduleLoader_1.moduleLoader(path, parentModule, globals)
 }
 exports.default = Scope
 

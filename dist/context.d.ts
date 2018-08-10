@@ -1,8 +1,5 @@
-export default class Context {
-    global: any;
-    process: any;
-    console: any;
-    _cache: any;
-    constructor();
-}
+declare const _default: {
+    makeContext: (global: any) => any;
+};
+export default _default;
 //# sourceMappingURL=context.d.ts.map
