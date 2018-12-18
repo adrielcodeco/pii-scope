@@ -1,9 +1,9 @@
 'use strict'
 Object.defineProperty(exports, '__esModule', { value: true })
-const CHAR_HASH = 35
-const CHAR_EXCLAMATION_MARK = 33
-const CHAR_LINE_FEED = 10
-const CHAR_CARRIAGE_RETURN = 13
+var CHAR_HASH = 35
+var CHAR_EXCLAMATION_MARK = 33
+var CHAR_LINE_FEED = 10
+var CHAR_CARRIAGE_RETURN = 13
 function stripBOM (content) {
   if (content && content.charCodeAt(0) === 0xfeff) {
     content = content.slice(1)
@@ -15,7 +15,7 @@ function stripShebang (content) {
   if (!content) {
     content = ''
   }
-  const contLen = content.length
+  var contLen = content.length
   if (contLen >= 2) {
     if (
       content.charCodeAt(0) === CHAR_HASH &&
@@ -24,9 +24,9 @@ function stripShebang (content) {
       if (contLen === 2) {
         content = ''
       } else {
-        let i = 2
+        var i = 2
         for (; i < contLen; ++i) {
-          const code = content.charCodeAt(i)
+          var code = content.charCodeAt(i)
           if (code === CHAR_LINE_FEED || code === CHAR_CARRIAGE_RETURN) {
             break
           }

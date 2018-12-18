@@ -1,18 +1,37 @@
 'use strict'
+var __importStar =
+  (this && this.__importStar) ||
+  function (mod) {
+    if (mod && mod.__esModule) return mod
+    var result = {}
+    if (mod != null) {
+      for (var k in mod) { if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k] }
+    }
+    result['default'] = mod
+    return result
+  }
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod }
+  }
 Object.defineProperty(exports, '__esModule', { value: true })
-const fs = require('fs')
-const path = require('path')
-const vm = require('vm')
-const helpers_1 = require('./helpers')
-const context_1 = require('./context')
-const NativeModule = require('module')
-const _cache = Object.create(null)
-const _scriptCache = Object.create(null)
-const NativeRequire = require
-const _extensions = Object.create(null)
-function initModule (filename, parentModule = {}) {
-  const ParentModule = parentModule.constructor || NativeModule
-  const _module = new ParentModule(filename, parentModule)
+var fs = __importStar(require('fs'))
+var path = __importStar(require('path'))
+var vm = __importStar(require('vm'))
+var helpers_1 = require('./helpers')
+var context_1 = __importDefault(require('./context'))
+var NativeModule = require('module')
+var _cache = Object.create(null)
+var _scriptCache = Object.create(null)
+var NativeRequire = require
+var _extensions = Object.create(null)
+function initModule (filename, parentModule) {
+  if (parentModule === void 0) {
+    parentModule = {}
+  }
+  var ParentModule = parentModule.constructor || NativeModule
+  var _module = new ParentModule(filename, parentModule)
   _module.noCacheFor = parentModule.noCacheFor || []
   _module.filename = filename
   _module.paths = NativeModule._nodeModulePaths(path.dirname(filename))
@@ -29,38 +48,39 @@ function moduleLoader (request, parentModule, globals) {
     throw new Error('the request argument is invalid')
   }
   if (process.env.CHECK_CR === 'true') {
-    console.log(`\u001b[33mLoading module: ${request}\u001b[39m`)
+    console.log('\u001B[33mLoading module: ' + request + '\u001B[39m')
   }
-  const filename = NativeModule._resolveFilename(request, parentModule, false)
+  var filename = NativeModule._resolveFilename(request, parentModule, false)
   if (process.env.CHECK_CR === 'true') {
-    console.log(`  from: ${filename}`)
-    console.log(`  parent module: ${parentModule.filename || ''}`)
+    console.log('  from: ' + filename)
+    console.log('  parent module: ' + (parentModule.filename || ''))
   }
-  let msg = `Recursive module load detected!\r\n`
-  msg += `The "${request}" module located in "${filename}" will be loaded`
-  msg += `, but this is not a best practice\r\n`
-  msg += `This could be a mistake, check your code and correct.\r\n`
-  msg += `Parent module "${parentModule.filename}".\r\n`
+  var msg = 'Recursive module load detected!\r\n'
+  msg +=
+    'The "' + request + '" module located in "' + filename + '" will be loaded'
+  msg += ', but this is not a best practice\r\n'
+  msg += 'This could be a mistake, check your code and correct.\r\n'
+  msg += 'Parent module "' + parentModule.filename + '".\r\n'
   if (
     parentModule._recursive &&
     filename in parentModule._recursive &&
     parentModule._recursive[filename] === request
   ) {
-    console.warn(`\u001b[31m${msg}\u001b[39m`)
+    console.warn('\u001B[31m' + msg + '\u001B[39m')
     return {}
   }
   if (
-    !path.isAbsolute(request) &&
-    parentModule.noCacheFor &&
-    !parentModule.noCacheFor.includes(filename)
+    !parentModule.noCacheFor ||
+    (!parentModule.noCacheFor.includes(request) &&
+      !parentModule.noCacheFor.includes(filename))
   ) {
-    const cachedModule = _cache[filename]
+    var cachedModule = _cache[filename]
     if (cachedModule) {
       if (cachedModule.loaded) {
         updateChildren(parentModule, cachedModule, true)
         return cachedModule.exports
       } else {
-        console.warn(`\u001b[31m${msg}\u001b[39m`)
+        console.warn('\u001B[31m' + msg + '\u001B[39m')
         if (!parentModule._recursive) {
           parentModule._recursive = Object.create(null)
         }
@@ -71,8 +91,8 @@ function moduleLoader (request, parentModule, globals) {
   if (!path.isAbsolute(request) && filename === request) {
     return NativeRequire(request)
   }
-  const _module = initModule(filename, parentModule)
-  let extension = path.extname(filename) || '.js'
+  var _module = initModule(filename, parentModule)
+  var extension = path.extname(filename) || '.js'
   if (!_extensions[extension]) {
     extension = '.js'
   }
@@ -88,7 +108,7 @@ exports.moduleLoader = moduleLoader
 function compatibilityTsNode (filename, code) {
   if (path.extname(filename) === '.ts') {
     try {
-      const { register } = require('ts-node')
+      var register = require('ts-node').register
       code = register().compile(code, filename)
     } catch (err) {
       console.debug(err)
@@ -109,19 +129,19 @@ function compile (mod, filename, globals) {
   if (!mod) {
     throw new Error('the mod argument is invalid')
   }
-  const sandbox = context_1.default.makeContext(globals)
-  const context = globals ? vm.createContext(sandbox) : mod.context
-  let func
+  var sandbox = context_1.default.makeContext(globals)
+  var context = globals ? vm.createContext(sandbox) : mod.context
+  var func
   if (filename in _scriptCache) {
-    const script = _scriptCache[filename]
+    var script = _scriptCache[filename]
     func = context ? script.runInContext(context) : script.runInThisContext()
   } else {
-    let content = fs.readFileSync(filename, 'utf8')
+    var content = fs.readFileSync(filename, 'utf8')
     content = helpers_1.stripBOM(content)
     content = helpers_1.stripShebang(content)
     content = codePreProcessor(filename, content)
-    let wrapper = NativeModule.wrap(content)
-    const script = new vm.Script(wrapper, {
+    var wrapper = NativeModule.wrap(content)
+    var script = new vm.Script(wrapper, {
       filename: filename,
       lineOffset: 0,
       displayErrors: true
@@ -130,8 +150,8 @@ function compile (mod, filename, globals) {
     func = context ? script.runInContext(context) : script.runInThisContext()
   }
   mod.context = context
-  const customRequire = makeRequireFunction(mod)
-  const dirname = path.dirname(filename)
+  var customRequire = makeRequireFunction(mod)
+  var dirname = path.dirname(filename)
   func.call(context, mod.exports, customRequire, mod, filename, dirname)
   return mod.exports
 }
@@ -142,14 +162,14 @@ _extensions['.ts'] = compile
 _extensions['.json'] = NativeModule._extensions['.json']
 _extensions['.node'] = NativeModule._extensions['.node']
 function updateChildren (parent, child, scan) {
-  const children = parent && parent.children
+  var children = parent && parent.children
   if (children && !(scan && children.includes(child))) children.push(child)
 }
 function makeRequireFunction (mod) {
   if (!mod) {
     throw new Error('the mod argument is invalid')
   }
-  const _cache = (mod.context || {})._cache || NativeModule._cache
+  var _cache = (mod.context || {})._cache || NativeModule._cache
   function require (request) {
     return moduleLoader(request, mod, undefined)
   }
@@ -165,7 +185,7 @@ function makeRequireFunction (mod) {
     }
     return NativeModule._resolveLookupPaths(request, mod, true)
   }
-  const requireAny = require
+  var requireAny = require
   requireAny['resolve'] = resolve
   requireAny['paths'] = paths
   requireAny['main'] = process.mainModule

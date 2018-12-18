@@ -40,6 +40,16 @@ export default function Scope (path: string, options: ScopeOptions) {
       if (isAbsolute(m)) {
         return m
       }
+      try {
+        return require.resolve(m)
+      } finally {
+        // does nothing
+      }
+      try {
+        return (parentModule.require as any).resolve(m)
+      } finally {
+        // does nothing
+      }
       return ''
     })
     .filter(i => i)

@@ -6,17 +6,18 @@
  */
 /* eslint-env jest */
 
+export {}
+
 const vm = require('vm')
 const Context = require('../src/context').default
 const path = require('path')
 const Module = require('module')
 
 const requireTest = () => {
-  // require scope
   return require('../src/moduleLoader').makeRequireFunction
 }
 
-const checkNewGlobalScopeInstance = instance => {
+const checkNewGlobalScopeInstance = (instance: any) => {
   expect(instance).toBeDefined()
   expect(instance.prototype).toBeDefined()
   const keys = Reflect.ownKeys(instance.prototype)
@@ -56,7 +57,7 @@ test('call makeRequireFunction without arguments', () => {
 test('call makeRequireFunction', () => {
   expect.assertions(9)
   const makeRequireFunction = requireTest()
-  let req
+  let req: any = {}
   expect(() => {
     req = makeRequireFunction(createModule())
   }).not.toThrow()
@@ -178,7 +179,7 @@ test('require recursive', () => {
   expect.assertions(3)
   const makeRequireFunction = requireTest()
   const req = makeRequireFunction(createModule())
-  let test
+  let test: any = {}
   expect(() => {
     test = req('./dummy/recursive')
   }).not.toThrow()
@@ -190,7 +191,7 @@ test('require json', () => {
   expect.assertions(3)
   const makeRequireFunction = requireTest()
   const req = makeRequireFunction(createModule())
-  let test
+  let test: any = {}
   expect(() => {
     test = req('./dummy/test.json')
   }).not.toThrow()
@@ -212,7 +213,7 @@ test('require .node', () => {
   const makeRequireFunction = requireTest()
   const mod = new Module()
   const req = makeRequireFunction(mod)
-  let test
+  let test: any = {}
   expect(() => {
     test = req(require.resolve('./dummy/addon.node'))
   }).not.toThrow()
@@ -225,7 +226,7 @@ test('require file without extension', () => {
   const makeRequireFunction = requireTest()
   const mod = new Module()
   const req = makeRequireFunction(mod)
-  let test
+  let test: any = {}
   expect(() => {
     test = req(require.resolve('./dummy/withoutExtension'))
   }).not.toThrow()
@@ -238,7 +239,7 @@ test('require file with wrong extension', () => {
   const makeRequireFunction = requireTest()
   const mod = new Module()
   const req = makeRequireFunction(mod)
-  let test
+  let test: any = {}
   expect(() => {
     test = req(require.resolve('./dummy/wrongExtension.jss'))
   }).not.toThrow()

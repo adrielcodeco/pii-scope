@@ -1,6 +1,6 @@
-import scope from '@pii/scope'
+// import scope from '@pii/scope'
 // or require for ES5
-// const scope = require('@pii/scope').default
+const scope = require('../../dist').default
 
 const Test1 = scope.New(require.resolve('./test'))
 
