@@ -32,7 +32,7 @@ gulp.task('ts-build', () => {
         })
       )
       .pipe(
-        sourcemaps.write('.')
+        sourcemaps.write('.', { includeContent: false })
       )
       .pipe(gulp.dest(tsProject.config.compilerOptions.outDir))
   ])

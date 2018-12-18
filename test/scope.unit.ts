@@ -6,8 +6,9 @@
  */
 /* eslint-env jest */
 
+export {}
+
 const requireTest = () => {
-  // require scope
   return require('../src/scope').default
 }
 
@@ -18,7 +19,7 @@ const useNativeModule = () => {
 
 test('require', () => {
   expect.assertions(3)
-  let Scope
+  let Scope: any = {}
   expect(() => {
     Scope = requireTest()
   }).not.toThrow()
@@ -59,7 +60,7 @@ test('using noCacheFor', () => {
   expect(() => {
     const filename = require.resolve('./dummy/newGlobalScope')
     Scope(filename, {
-      noCacheFor: [filename, './dummy/getGlobalVar'],
+      noCacheFor: [filename, require.resolve('./dummy/getGlobalVar')],
       parentModule: useNativeModule()
     })
   }).not.toThrow()

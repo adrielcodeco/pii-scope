@@ -7,12 +7,15 @@
  * @flow
  */
 
+const stackTrace = require('stack-trace')
+
 const _global: any = global
 
 export default {
   makeContext: (global: any) => {
     const newGlobal = Object.assign(Object.create(null), global, {
       _cache: Object.create(null),
+      mainGlobal: _global,
       Array,
       ArrayBuffer,
       Atomics: _global.Atomics,
@@ -31,7 +34,7 @@ export default {
       decodeURIComponent,
       encodeURI,
       encodeURIComponent,
-      Error,
+      Error: wrapError(_global.Error),
       escape,
       eval: _global.eval,
       EvalError,
@@ -87,4 +90,16 @@ export default {
     Reflect.set(newGlobal, 'GLOBAL', newGlobal)
     return newGlobal
   }
+}
+
+function wrapError (Error: any): any {
+  const captureStackTraceOld = Error.captureStackTrace
+  Error.captureStackTrace = function (obj: any, ...args: any[]): any {
+    const res = captureStackTraceOld(obj, ...args)
+    if (typeof obj.stack === 'string') {
+      obj.stack = stackTrace.parse({ stack: obj.stack })
+    }
+    return res
+  }
+  return Error
 }

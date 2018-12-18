@@ -1,10 +1,21 @@
 #!/usr/bin/env node
 'use strict'
+var __importStar =
+  (this && this.__importStar) ||
+  function (mod) {
+    if (mod && mod.__esModule) return mod
+    var result = {}
+    if (mod != null) {
+      for (var k in mod) { if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k] }
+    }
+    result['default'] = mod
+    return result
+  }
 Object.defineProperty(exports, '__esModule', { value: true })
-const moduleLoader_1 = require('./moduleLoader')
-const path = require('path')
-const yargs = require('yargs')
-const Module = require('module')
+var moduleLoader_1 = require('./moduleLoader')
+var path = __importStar(require('path'))
+var yargs = require('yargs')
+var Module = require('module')
 yargs
   .command(
     ['check [file]', '$0'],
@@ -15,10 +26,10 @@ yargs
         default: true
       }
     },
-    argv => {
+    function (argv) {
       process.env.CHECK_CR = argv.showLoading.toString()
-      const filename = path.resolve(process.cwd(), argv.file)
-      const module = new Module()
+      var filename = path.resolve(process.cwd(), argv.file)
+      var module = new Module()
       module.paths = Module._nodeModulePaths(path.dirname(filename))
       moduleLoader_1.moduleLoader(argv.file, module, Object.create(null))
     }

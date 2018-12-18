@@ -50,8 +50,8 @@ export function moduleLoader (request: string, parentModule: any, globals: any) 
     return {}
   }
   if (
-    !path.isAbsolute(request) &&
-    parentModule.noCacheFor &&
+    !parentModule.noCacheFor ||
+    !parentModule.noCacheFor.includes(request) &&
     !parentModule.noCacheFor.includes(filename)
   ) {
     const cachedModule = _cache[filename]
